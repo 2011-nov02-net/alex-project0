@@ -4,6 +4,7 @@ using System.Text;
 
 namespace StoreApp.Library
 {
+    [Serializable]
     class Order
     {
         private readonly int _orderId = 0;
@@ -12,9 +13,9 @@ namespace StoreApp.Library
         private readonly DateTime _time;
         private readonly int _total = 0;
 
-        private readonly List<Product> _products;
+        private readonly List<OrderProduct> _products;
 
-        public Order(int id, Store store, Customer customer, DateTime time, List<Product> products)
+        public Order(int id, Store store, Customer customer, DateTime time, List<OrderProduct> products)
         {
             _orderId = id;
             _store = store;
@@ -56,7 +57,7 @@ namespace StoreApp.Library
             }
         }
 
-        public List<Product> GetProduct
+        public List<OrderProduct> GetProduct
         {
             get
             {

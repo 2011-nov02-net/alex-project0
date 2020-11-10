@@ -4,6 +4,7 @@ using System.Text;
 
 namespace StoreApp.Library
 {
+    [Serializable]
     class Customer
     {
         private int _customerId = 0;
@@ -34,9 +35,9 @@ namespace StoreApp.Library
             }
         }
 
-        public void AddToOrderHistory(int orderId, Order order)
+        public void AddToOrderHistory(Order order)
         {
-
+            _customerOrders.Add(order);
         }
 
         public List<Order> CustomerOrders

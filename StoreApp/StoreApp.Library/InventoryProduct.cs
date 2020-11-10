@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
 using System.Text;
 
 namespace StoreApp.Library
 {
-    public class Product
+    [Serializable]
+    class InventoryProduct : IProduct
     {
-        private readonly int _productId =0;
+        private readonly int _productId = 0;
         private readonly string _productName = "";
-        private int _productQuantity = 0;
-        private double _price = 0.0; 
+        private int _inStock = 0;
+        private double _price = 0.0;
 
-        public Product(int id, string name, double price)
+
+        public InventoryProduct(int id, string name, double price)
         {
             _productId = id;
             _productName = name;
@@ -47,18 +47,17 @@ namespace StoreApp.Library
 
         public void IncrementQuantity(int amount)
         {
-            _productQuantity += amount;
+            _inStock += amount;
         }
 
         public void DecrementQuantity(int amount)
         {
-            _productQuantity -= amount;
+            _inStock -= amount;
         }
 
         public void UpdatePrice(int newPrice)
         {
             _price = newPrice;
         }
-
     }
 }
