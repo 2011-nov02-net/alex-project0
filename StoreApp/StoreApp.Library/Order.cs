@@ -1,77 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StoreApp.Library
 {
     [Serializable]
-    class Order
+    public class Order
     {
         private readonly int _orderId = 0;
-        private readonly Store _store;
-        private readonly Customer _customer;
+        private readonly int _storeId;
+        private readonly int _customerId;
         private readonly DateTime _time;
-        private readonly int _total = 0;
+        private readonly double _total = 0;
 
-        private readonly List<OrderProduct> _products;
+        private readonly Dictionary<int, int> _orderItems;
 
-        public Order(int id, Store store, Customer customer, DateTime time, List<OrderProduct> products)
+        public Order(int id, int store, int customer, DateTime time, double total, Dictionary<int,int> products)
         {
             _orderId = id;
-            _store = store;
-            _customer = customer;
+            _storeId = store;
+            _customerId = customer;
             _time = time;
-            _products = products;
+            _total = total;
+            _orderItems = products;
         }
 
-        public int OrderId
+        public Order(int store, int customer, DateTime time, double total, Dictionary<int, int> products)
         {
-            get
-            {
-                return _orderId;
-            }
+            
+            _storeId = store;
+            _customerId = customer;
+            _time = time;
+            _total = total;
+            _orderItems = products;
         }
 
-        public Store GetStore
-        {
-            get
-            {
-                return _store;
-            }
-        }
+        public int OrderId => _orderId;
 
-        public Customer GetCustomer
-        {
-            get
-            {
-                return _customer;
-            }
-        }
+        public int GetStoreId => _storeId;
 
-        public DateTime GetTime
-        {
-            get
-            {
-                return _time;
+        public int GetCustomerId => _customerId;
 
-            }
-        }
+        public DateTime GetTime => _time;
 
-        public List<OrderProduct> GetProduct
-        {
-            get
-            {
-                return _products;
-            }
-        }
+        public Dictionary<int, int> GetOrderItems => _orderItems;
 
-        public int GetTotal
-        {
-            get
-            {
-                return _total;
-            }
-        }
+        public double GetTotal => _total;
 
 
 

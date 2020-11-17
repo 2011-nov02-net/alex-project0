@@ -4,11 +4,13 @@ using System.Text;
 
 namespace StoreApp.Library
 {
-    interface IProduct
+    public interface IProduct
     {
-        void IncrementQuantity(int amount);
+        int ProductId { get; }
 
-        void DecrementQuantity(int amount);
+        string ProductName { get; }
+
+        double Price { get; }
 
         void UpdatePrice(int newPrice);
     }

@@ -5,12 +5,11 @@ using System.Text;
 namespace StoreApp.Library
 {
     [Serializable]
-    class Store
+    public class Store
     {
         private readonly int _storeId = 0;
         private readonly string _storeName = "";
-        private List<InventoryProduct> _storeInventory;
-        private List<Order> _storeOrderHistory;
+        private Dictionary<int, int> _storeInventory = new Dictionary<int, int>();
 
         public Store(int id, string name)
         {
@@ -18,20 +17,24 @@ namespace StoreApp.Library
             _storeName = name;
         }
 
-        public InventoryProduct CheckInventory(string productName)
+        public int StoreId => _storeId;
+
+        public string StoreName => _storeName;
+
+        public Dictionary<int, int> StoreInventory => _storeInventory;
+
+        public bool AddToInventory(IProduct product, int amount)
         {
-            return new InventoryProduct(0,"jk",12.0);
+            if (!_storeInventory.ContainsKey(product.ProductId))
+            {
+                if(amount >= 0)
+                {
+                    _storeInventory.Add(product.ProductId, amount);
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
-
-        public void PlaceOrder(Order order)
-        {
-
-        }
-
-        public void Restock(string name, int amout)
-        {
-
-        }
-        
     }
 }

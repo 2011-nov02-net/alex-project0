@@ -5,48 +5,49 @@ using System.Text;
 namespace StoreApp.Library
 {
     [Serializable]
-    class Customer
+    public class Customer
     {
-        private int _customerId = 0;
-        private string _customerName = "";
+        private readonly int _customerId = 0;
+        private readonly string _customerFirstName = "";
+        private readonly string _customerLastName = "";
+        private string _phoneNumber = "";
 
-        private List<Order> _customerOrders;
-
-        public Customer(int id, string name)
+        public Customer(int id, string first, string last, string phone)
         {
             _customerId = id;
-            _customerName = name;
+            _customerFirstName = first;
+            _customerLastName = last;
+            _phoneNumber = phone;
 
         }
 
-        public int CustomerId
+        public Customer(string first, string last, string phone)
+        {
+            _customerFirstName = first;
+            _customerLastName = last;
+            _phoneNumber = phone;
+
+        }
+
+        public int CustomerId => _customerId;
+
+        public string CustomerFullName => _customerFirstName +" " +_customerLastName;
+        public string CustomerFirstName => _customerFirstName;
+        public string CustomerLastName => _customerLastName;
+
+        public string PhoneNumber
         {
             get
             {
-                return _customerId;
+                return _phoneNumber;
             }
-        }
-
-        public string CustomerName
-        {
-            get
+            set
             {
-                return _customerName;
+                if(value != null)
+                {
+                    _phoneNumber = value;
+                }
             }
-        }
-
-        public void AddToOrderHistory(Order order)
-        {
-            _customerOrders.Add(order);
-        }
-
-        public List<Order> CustomerOrders
-        {
-            get
-            {
-                return _customerOrders;
-            }
-            
         }
 
     }
