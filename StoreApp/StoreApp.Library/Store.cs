@@ -11,10 +11,11 @@ namespace StoreApp.Library
         private readonly string _storeName = "";
         private Dictionary<int, int> _storeInventory = new Dictionary<int, int>();
 
-        public Store(int id, string name)
+        public Store(int id, string name, Dictionary<int,int> items)
         {
             _storeId = id;
             _storeName = name;
+            _storeInventory = items;
         }
 
         public int StoreId => _storeId;

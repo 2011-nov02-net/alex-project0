@@ -5,18 +5,19 @@ using System.Collections.Generic;
 
 namespace StoreApp.DataModel
 {
-    public partial class Store
+    public partial class ProductTable
     {
-        public Store()
+        public ProductTable()
         {
             Inventories = new HashSet<Inventory>();
-            OrderDetails = new HashSet<OrderDetail>();
+            OrderProducts = new HashSet<OrderProduct>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public decimal Price { get; set; }
 
         public virtual ICollection<Inventory> Inventories { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using StoreApp.Library;
+using StoreApp.DataModel;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.IO;
+
+
 
 namespace StoreApp.ConsoleApp
 {
     class Program
     {
+        static DbContextOptions<StoreAppContext> s_dbContextOptions;
         static void Main(string[] args)
         {
-            StoreRepository stores = new StoreRepository();
-            CustomerRepository customers = new CustomerRepository();
-            OrderRepository orders = new OrderRepository();
-            ProductRepository products = new ProductRepository();
 
-            populateCustomers(customers);
-            populateProductsStoresAndOrders(products, stores, orders);
+            var optionsBuilder = new DbContextOptionsBuilder<StoreAppContext>();
+            optionsBuilder.UseSqlServer(GetConnectionString());
+            s_dbContextOptions = optionsBuilder.Options;
+
+            StoreRepository stores = new StoreRepository(s_dbContextOptions);
+            CustomerRepository customers = new CustomerRepository(s_dbContextOptions);
+            OrderRepository orders = new OrderRepository(s_dbContextOptions);
+            ProductRepository products = new ProductRepository(s_dbContextOptions);
+
+            //populateCustomers(customers);
+            //populateProductsStoresAndOrders(products, stores, orders);
 
 
             List<char> options = new List<char> { '1', '2', '3', '4', '5', '6' };
@@ -60,6 +72,23 @@ namespace StoreApp.ConsoleApp
             }
         }
 
+        static string GetConnectionString()
+        {
+            string path = "../../../../../../storeapp-connection-string.json";
+            string json;
+            try
+            {
+                json = File.ReadAllText(path);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"required file {path} not found. should just be the connection string in quotes.");
+                throw;
+            }
+            string connectionString = JsonSerializer.Deserialize<string>(json);
+            return connectionString;
+        }
+
         public static char DisplayMainMenu()
         {
             Console.WriteLine("Select an option from the menu below:");
@@ -82,7 +111,7 @@ namespace StoreApp.ConsoleApp
             String firstName = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(firstName))
             {
-                Console.WriteLine("\n Invalid input, please provide a real first name");
+                Console.WriteLine("\nInvalid input, please provide a real first name");
                 Console.WriteLine("Enter Your First Name:");
 
                 firstName = Console.ReadLine();
@@ -92,7 +121,7 @@ namespace StoreApp.ConsoleApp
             String lastName = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(lastName))
             {
-                Console.WriteLine("\n Invalid input, please provide a real last name");
+                Console.WriteLine("\nInvalid input, please provide a real last name");
                 Console.WriteLine("Enter Your Last Name:");
 
                 lastName = Console.ReadLine();
@@ -102,7 +131,7 @@ namespace StoreApp.ConsoleApp
             String phone = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(phone))
             {
-                Console.WriteLine("\n Invalid input, please provide a real phone number");
+                Console.WriteLine("\nInvalid input, please provide a real phone number");
                 Console.WriteLine("Enter Your Phone Number: '(xxx)xxx-xxx'");
                 phone = Console.ReadLine();
             }
@@ -207,7 +236,7 @@ namespace StoreApp.ConsoleApp
                         
                         Console.WriteLine($"\nOrder Id: {order.OrderId}");
                         Console.WriteLine($"Date and Time: {order.GetTime}");
-                        Console.WriteLine($"Store: {store.StoreName}");
+                        //Console.WriteLine($"Store: {store.StoreName}");
                         Console.WriteLine($"Products:");
 
                         foreach(var item in order.GetOrderItems)
@@ -346,7 +375,7 @@ namespace StoreApp.ConsoleApp
                         foreach (var item in store.StoreInventory)
                         {
                             IProduct product = products.GetProductById(item.Key);
-                            Console.WriteLine($"\tName:{product.ProductName} \t\t\t\tAvailable:{item.Value}");
+                            Console.WriteLine($"\tName:{product.ProductName}\t\t\t\t\tAvailable:{item.Value}");
                         }
                         Console.WriteLine("\n");
                     }
@@ -361,7 +390,7 @@ namespace StoreApp.ConsoleApp
                     String productName = Console.ReadLine();
                     IProduct product1 = null;
                     Dictionary<int, int> cart = new Dictionary<int, int>();
-                    double total = 0.0;
+                    decimal total = 0.0M;
                     while (productName != "Done"){
 
                         while (string.IsNullOrWhiteSpace(productName))
@@ -488,101 +517,6 @@ namespace StoreApp.ConsoleApp
             }
         }
 
-        public static void populateCustomers(CustomerRepository customers)
-        {
 
-            Customer alex = new Customer(1, "Alex", "Soto", "(619)730-8241");
-            Customer yesenia = new Customer(2, "Yesenia", "Cisneros", "(626)482-7104");
-            Customer chupis = new Customer(3, "Armando", "Soto", "(619)547-2327");
-
-            customers.AddNewCustomer(alex);
-            customers.AddNewCustomer(yesenia);
-            customers.AddNewCustomer(chupis);
-
-        }
-        
-        public static void populateProductsStoresAndOrders(ProductRepository products, StoreRepository stores, OrderRepository orders)
-        {
-            IProduct toiletPaper = new Product(1, "Toilet Paper", 3.00);
-            IProduct apple = new Product(2, "Apple", 1.00);
-            IProduct ps5 = new Product(3, "Play Station 5", 500.00);
-            IProduct burger = new Product(4, "Cheese Burger", 2.00);
-            IProduct chancla = new Product(5, "Chancla", 5.00);
-            IProduct picture = new Product(6, "Picture", 4.00);
-            IProduct makeup = new Product(7, "Makeup", 25.00);
-            IProduct fountaindrink = new Product(8, "Fountain Drink", 2.00);
-            IProduct fries = new Product(9, "Fries", 3.00);
-            IProduct salad = new Product(10, "Salad", 7.00);
-            IProduct book = new Product(11, "Book", 6.00);
-            IProduct computer = new Product(12, "Computer", 600.00);
-            IProduct chair = new Product(13, "Chair", 100.00);
-            IProduct mirror = new Product(14, "Mirror", 50.00);
-            IProduct pizza = new Product(15, "Pizza", 13.00);
-
-            products.AddNewProduct(toiletPaper);
-            products.AddNewProduct(apple);
-            products.AddNewProduct(ps5);
-            products.AddNewProduct(burger);
-            products.AddNewProduct(chancla);
-            products.AddNewProduct(picture);
-            products.AddNewProduct(makeup);
-            products.AddNewProduct(fountaindrink);
-            products.AddNewProduct(fries);
-            products.AddNewProduct(salad);
-            products.AddNewProduct(book);
-            products.AddNewProduct(computer);
-            products.AddNewProduct(chair);
-            products.AddNewProduct(mirror);
-            products.AddNewProduct(pizza);
-
-            Store walmart = new Store(1, "Walmart");
-            Store staples = new Store(2, "Staples");
-            Store fastFoodStore = new Store(3, "Fast Food Stop");
-
-
-
-            walmart.AddToInventory(book, 30);
-            walmart.AddToInventory(computer, 10);
-            walmart.AddToInventory(toiletPaper, 100);
-            walmart.AddToInventory(mirror, 20);
-            walmart.AddToInventory(apple, 150);
-            walmart.AddToInventory(makeup, 40);
-            walmart.AddToInventory(picture, 50);
-            walmart.AddToInventory(chair, 25);
-
-            staples.AddToInventory(computer, 50);
-            staples.AddToInventory(chair, 70);
-            staples.AddToInventory(book, 200);
-
-            fastFoodStore.AddToInventory(burger, 200);
-            fastFoodStore.AddToInventory(fountaindrink, 300);
-            fastFoodStore.AddToInventory(fries, 200);
-            fastFoodStore.AddToInventory(pizza, 100);
-            fastFoodStore.AddToInventory(salad, 50);
-
-            stores.AddNewStore(walmart);
-            stores.AddNewStore(staples);
-            stores.AddNewStore(fastFoodStore);
-
-
-            Dictionary<int, int> orderProducts = new Dictionary<int, int> { { 11, 2 }, { 12, 1 }, {1,5} };
-            Dictionary<int, int> orderProducts2 = new Dictionary<int, int> { { 4, 2 }, { 9, 2 }, { 8, 2 } };
-
-
-            Order order1 = new Order(1, 1, 1, new DateTime(2020, 11, 16, 7, 0, 0),627.00,orderProducts);
-            Order order2 = new Order(2, 3, 1, new DateTime(2019, 05, 09, 9, 15, 0), 14.0, orderProducts2);
-
-            stores.PlaceOrder(order1.GetStoreId, order1.GetOrderItems);
-            stores.PlaceOrder(order2.GetStoreId, order2.GetOrderItems);
-
-            orders.AddNewOrder(order1);
-            orders.AddNewOrder(order2);
-
-        }
-
-        
-            
-
-        
     }
 }

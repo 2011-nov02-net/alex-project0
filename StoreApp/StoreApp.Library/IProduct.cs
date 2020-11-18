@@ -10,7 +10,7 @@ namespace StoreApp.Library
 
         string ProductName { get; }
 
-        double Price { get; }
+        decimal Price { get; }
 
         void UpdatePrice(int newPrice);
     }

@@ -1,69 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
+using StoreApp.DataModel;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace StoreApp.Library
 {
     public class ProductRepository
     {
-        public List<IProduct> _allProducts  = new List<IProduct>();
+        /// <summary>
+        /// Database context options to create database context
+        /// </summary>
+        private readonly DbContextOptions<StoreAppContext> _contextOptions;
 
-        public List<IProduct> GetAllProduct()
+        /// <summary>
+        /// Constructor for product repository
+        /// </summary>
+        /// <param name="contextOptions">Context options to initialize database context</param>
+        public ProductRepository(DbContextOptions<StoreAppContext> contextOptions)
         {
-            return _allProducts;
+            _contextOptions = contextOptions;
         }
-
+        
+        /// <summary>
+        /// Retrieve product from database by its name
+        /// </summary>
+        /// <param name="name">Name of product to be returned </param>
+        /// <returns>Library product object if product exists in database null otherwise</returns>
         public IProduct GetProductByName(string name)
         {
-            foreach(IProduct product in _allProducts)
+            using var context = new StoreAppContext(_contextOptions);
+            ProductTable dbProduct;
+            try
             {
-                if(product.ProductName == name)
-                {
-                    return product;
-                }
+                dbProduct = context.ProductTables.First(p => p.Name == name);
             }
-
-            return null;
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            return new Product(dbProduct.Id, dbProduct.Name, dbProduct.Price);
         }
 
+        /// <summary>
+        /// Retrieve product by its id
+        /// </summary>
+        /// <param name="id">Id of product to be returned</param>
+        /// <returns>Library product object if product exists in database null otherwise</returns>
         public IProduct GetProductById(int id)
         {
-            foreach(IProduct product in _allProducts)
+            using var context = new StoreAppContext(_contextOptions);
+            ProductTable dbProduct;
+            try
             {
-                if(product.ProductId == id)
-                {
-                    return product;
-                }
+                dbProduct = context.ProductTables.First(p => p.Id == id);
             }
-
-            return null;
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            return new Product(dbProduct.Id, dbProduct.Name, dbProduct.Price);
         }
 
-        public bool AddNewProduct(IProduct product)
-        {
-            if(product != null)
-            {
-                _allProducts.Add(product);
-                return true;
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
-        }
-
-        public int GetProductIdWithName(string name)
-        {
-
-            foreach (Product product in _allProducts)
-            {
-                if (product.ProductName == name)
-                {
-                    return product.ProductId;
-                }
-            }
-
-            return -1;
-        }
     }
 }

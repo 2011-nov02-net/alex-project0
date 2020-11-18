@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace StoreApp.DataModel
 {
-    public partial class Customer
+    public partial class CustomerTable
     {
-        public Customer()
+        public CustomerTable()
         {
             OrderDetails = new HashSet<OrderDetail>();
         }

@@ -18,8 +18,8 @@ namespace StoreApp.DataModel
         public DateTime Date { get; set; }
         public decimal Total { get; set; }
 
-        public virtual Customer Customer { get; set; }
-        public virtual Store Location { get; set; }
+        public virtual CustomerTable Customer { get; set; }
+        public virtual StoreTable Location { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

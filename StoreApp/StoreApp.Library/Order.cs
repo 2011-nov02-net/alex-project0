@@ -10,11 +10,11 @@ namespace StoreApp.Library
         private readonly int _storeId;
         private readonly int _customerId;
         private readonly DateTime _time;
-        private readonly double _total = 0;
+        private readonly decimal _total = 0;
 
         private readonly Dictionary<int, int> _orderItems;
 
-        public Order(int id, int store, int customer, DateTime time, double total, Dictionary<int,int> products)
+        public Order(int id, int store, int customer, DateTime time, decimal total, Dictionary<int,int> products)
         {
             _orderId = id;
             _storeId = store;
@@ -24,7 +24,7 @@ namespace StoreApp.Library
             _orderItems = products;
         }
 
-        public Order(int store, int customer, DateTime time, double total, Dictionary<int, int> products)
+        public Order(int store, int customer, DateTime time, decimal total, Dictionary<int, int> products)
         {
             
             _storeId = store;
@@ -44,7 +44,7 @@ namespace StoreApp.Library
 
         public Dictionary<int, int> GetOrderItems => _orderItems;
 
-        public double GetTotal => _total;
+        public decimal GetTotal => _total;
 
 
 

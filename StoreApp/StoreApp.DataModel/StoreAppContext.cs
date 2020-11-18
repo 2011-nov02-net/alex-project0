@@ -17,18 +17,18 @@ namespace StoreApp.DataModel
         {
         }
 
-        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerTable> CustomerTables { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderProduct> OrderProducts { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<ProductTable> ProductTables { get; set; }
+        public virtual DbSet<StoreTable> StoreTables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<CustomerTable>(entity =>
             {
-                entity.ToTable("Customer");
+                entity.ToTable("CustomerTable");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -44,7 +44,7 @@ namespace StoreApp.DataModel
             modelBuilder.Entity<Inventory>(entity =>
             {
                 entity.HasKey(e => new { e.LocationId, e.ProductId })
-                    .HasName("PK__Inventor__2CBE68FB79F3CD7D");
+                    .HasName("PK__Inventor__2CBE68FB885805FF");
 
                 entity.ToTable("Inventory");
 
@@ -52,13 +52,13 @@ namespace StoreApp.DataModel
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Locat__6383C8BA");
+                    .HasConstraintName("FK__Inventory__Locat__07C12930");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Produ__6477ECF3");
+                    .HasConstraintName("FK__Inventory__Produ__08B54D69");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -71,19 +71,19 @@ namespace StoreApp.DataModel
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Custo__68487DD7");
+                    .HasConstraintName("FK__OrderDeta__Custo__0C85DE4D");
 
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Locat__693CA210");
+                    .HasConstraintName("FK__OrderDeta__Locat__0D7A0286");
             });
 
             modelBuilder.Entity<OrderProduct>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.ProductId })
-                    .HasName("PK__OrderPro__08D097A3AEF445C4");
+                    .HasName("PK__OrderPro__08D097A364E777E4");
 
                 entity.ToTable("OrderProduct");
 
@@ -91,18 +91,18 @@ namespace StoreApp.DataModel
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Order__6D0D32F4");
+                    .HasConstraintName("FK__OrderProd__Order__114A936A");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Produ__6E01572D");
+                    .HasConstraintName("FK__OrderProd__Produ__123EB7A3");
             });
 
-            modelBuilder.Entity<Product>(entity =>
+            modelBuilder.Entity<ProductTable>(entity =>
             {
-                entity.ToTable("Product");
+                entity.ToTable("ProductTable");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -111,9 +111,9 @@ namespace StoreApp.DataModel
                 entity.Property(e => e.Price).HasColumnType("money");
             });
 
-            modelBuilder.Entity<Store>(entity =>
+            modelBuilder.Entity<StoreTable>(entity =>
             {
-                entity.ToTable("Store");
+                entity.ToTable("StoreTable");
 
                 entity.Property(e => e.Name)
                     .IsRequired()

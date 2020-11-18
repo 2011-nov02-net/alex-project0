@@ -12,6 +12,6 @@ namespace StoreApp.DataModel
         public int Quantity { get; set; }
 
         public virtual OrderDetail Order { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ProductTable Product { get; set; }
     }
 }
