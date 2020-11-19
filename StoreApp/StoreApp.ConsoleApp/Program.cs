@@ -26,9 +26,6 @@ namespace StoreApp.ConsoleApp
             OrderRepository orders = new OrderRepository(s_dbContextOptions);
             ProductRepository products = new ProductRepository(s_dbContextOptions);
 
-            //populateCustomers(customers);
-            //populateProductsStoresAndOrders(products, stores, orders);
-
 
             List<char> options = new List<char> { '1', '2', '3', '4', '5', '6' };
 
@@ -236,7 +233,7 @@ namespace StoreApp.ConsoleApp
                         
                         Console.WriteLine($"\nOrder Id: {order.OrderId}");
                         Console.WriteLine($"Date and Time: {order.GetTime}");
-                        //Console.WriteLine($"Store: {store.StoreName}");
+                        Console.WriteLine($"Store: {store.StoreName}");
                         Console.WriteLine($"Products:");
 
                         foreach(var item in order.GetOrderItems)
@@ -296,6 +293,7 @@ namespace StoreApp.ConsoleApp
                         {
                             IProduct product = products.GetProductById(item.Key);
                             Console.WriteLine($"\t{product.ProductName}: {item.Value}");
+
                         }
                         Console.WriteLine($"Total: ${order.GetTotal}");
                     }
@@ -375,7 +373,7 @@ namespace StoreApp.ConsoleApp
                         foreach (var item in store.StoreInventory)
                         {
                             IProduct product = products.GetProductById(item.Key);
-                            Console.WriteLine($"\tName:{product.ProductName}\t\t\t\t\tAvailable:{item.Value}");
+                            Console.WriteLine("    {0,-30}{1,-30}", $"Name:{product.ProductName}", $"Available:{item.Value}");
                         }
                         Console.WriteLine("\n");
                     }

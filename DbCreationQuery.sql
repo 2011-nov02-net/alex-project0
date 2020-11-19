@@ -103,7 +103,7 @@ INSERT INTO Inventory (LocationId, ProductId, Stock) VALUES
 
 INSERT INTO OrderDetails (CustomerId, LocationId, Date, Total) VALUES
 	(1,1, CURRENT_TIMESTAMP, 627.00),
-	(1,2, CURRENT_TIMESTAMP, 14.00);
+	(1,3, CURRENT_TIMESTAMP, 14.00);
 
 INSERT INTO OrderProduct (OrderId, ProductId, Quantity) VALUES
 	(1, 10, 2),
