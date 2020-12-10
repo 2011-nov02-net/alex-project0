@@ -22,36 +22,6 @@ namespace StoreApp.Library
         {
             _contextOptions = contextOptions;
         }
-        
-        /// <summary>
-        /// Retrieves order by id from database
-        /// </summary>
-        /// <param name="id">Order id</param>
-        /// <returns>Library order object if found in database null otherwise</returns>
-        public Order GetOrderById(int id)
-        {
-
-            using var context = new StoreAppContext(_contextOptions);
-            OrderDetail dbOrder;
-            try
-            {
-                dbOrder = context.OrderDetails
-                    .Include(o => o.OrderProducts)
-                    .First(o => o.Id == id);
-            }
-            catch (InvalidOperationException)
-            {
-                return null;
-            }
-            Dictionary<int, int> products = new Dictionary<int, int>();
-
-            foreach (OrderProduct product in dbOrder.OrderProducts)
-            {
-                products.Add(product.ProductId, product.Quantity);
-            }
-
-            return new Order(dbOrder.LocationId,dbOrder.CustomerId, dbOrder.Date, dbOrder.Total, products);
-        }
 
         /// <summary>
         /// Gets customer orders by  customer id from database 
