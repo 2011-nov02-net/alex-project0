@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.Library", "StoreAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.UnitTests", "StoreApp.UnitTests\StoreApp.UnitTests.csproj", "{706435E0-3FD0-4576-B806-0D19BFC0EE64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.DataModel", "StoreApp.DataModel\StoreApp.DataModel.csproj", "{DBD918CD-2A6D-4A3D-9C12-2E22D1526E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp.DataModel", "StoreApp.DataModel\StoreApp.DataModel.csproj", "{DBD918CD-2A6D-4A3D-9C12-2E22D1526E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{248BA69E-15B3-4731-92FC-8677A0831FF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DBD918CD-2A6D-4A3D-9C12-2E22D1526E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBD918CD-2A6D-4A3D-9C12-2E22D1526E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBD918CD-2A6D-4A3D-9C12-2E22D1526E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{248BA69E-15B3-4731-92FC-8677A0831FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{248BA69E-15B3-4731-92FC-8677A0831FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{248BA69E-15B3-4731-92FC-8677A0831FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{248BA69E-15B3-4731-92FC-8677A0831FF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
